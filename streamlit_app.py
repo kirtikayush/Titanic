@@ -20,8 +20,8 @@ true_labels = pd.read_csv("gender_submission.csv")
 
 # Preprocess test data
 def preprocess(df):
-    df['Age'].fillna(df['Age'].median(), inplace=True)
-    df['Fare'].fillna(df['Fare'].median(), inplace=True)
+    df['Age'] = df['Age'].fillna(df['Age'].median())
+    df['Fare'] = df['Fare'].fillna(df['Fare'].median())
     for col in ['Sex', 'Embarked']:
         le = encoders[col]
         df[col] = le.transform(df[col].fillna(le.classes_[0]))
