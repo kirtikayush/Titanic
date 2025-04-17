@@ -72,7 +72,6 @@ elif menu == "🧪 Try a Prediction":
     }
     embarked_full = st.selectbox("Port of Embarkation", list(embarked_display.keys()))
     embarked = embarked_display[embarked_full]
-    embarked = st.selectbox("Port of Embarkation", ["C", "Q", "S"])
 
     if st.button("Predict Survival"):
         # Prepare single input
