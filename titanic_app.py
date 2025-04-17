@@ -65,6 +65,13 @@ elif menu == "🧪 Try a Prediction":
     sibsp = st.number_input("Siblings/Spouses Aboard", min_value=0, max_value=8, value=0)
     parch = st.number_input("Parents/Children Aboard", min_value=0, max_value=6, value=0)
     fare = st.slider("Fare", 0.0, 600.0, 50.0)
+    embarked_display = {
+        "Cherbourg (C)": "C",
+        "Queenstown (Q)": "Q",
+        "Southampton (S)": "S"
+    }
+    embarked_full = st.selectbox("Port of Embarkation", list(embarked_display.keys()))
+    embarked = embarked_display[embarked_full]
     embarked = st.selectbox("Port of Embarkation", ["C", "Q", "S"])
 
     if st.button("Predict Survival"):
