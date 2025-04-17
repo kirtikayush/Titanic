@@ -32,7 +32,7 @@ A Streamlit web app that predicts whether a passenger would have survived the Ti
 ```bash
 # Clone the repository
 git clone https://github.com/kirtikayush/titanic.git
-cd titanic-streamlit-app
+cd titanic
 
 # Install dependencies
 pip install -r requirements.txt
