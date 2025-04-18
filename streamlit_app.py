@@ -5,8 +5,8 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.tree import plot_tree
 import matplotlib.pyplot as plt
 import seaborn as sns
+from io import BytesIO
 
-# Load models and encoders
 models = {
     "Decision Tree": joblib.load("decision_tree_model.pkl"),
     "Random Forest": joblib.load("random_forest_model.pkl"),
@@ -14,11 +14,9 @@ models = {
 }
 encoders = joblib.load("label_encoders.pkl")
 
-# Load test data and labels
 test_df = pd.read_csv("test.csv")
 true_labels = pd.read_csv("gender_submission.csv")
 
-# Preprocess test data
 def preprocess(df):
     df['Age'] = df['Age'].fillna(df['Age'].median())
     df['Fare'] = df['Fare'].fillna(df['Fare'].median())
@@ -29,7 +27,6 @@ def preprocess(df):
 
 features = ['Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare', 'Embarked']
 
-# Evaluation function
 def evaluate_model(model):
     df = preprocess(test_df.copy())
     X_test = df[features]
@@ -62,6 +59,17 @@ if menu == "📈 Model Evaluation":
     ax.set_xlabel("Predicted")
     ax.set_ylabel("Actual")
     st.pyplot(fig_cm)
+
+    buf = BytesIO()
+    fig_cm.savefig(buf, format="png")
+    buf.seek(0)
+
+    st.download_button(
+        label="📥 Download Confusion Matrix",
+        data=buf,
+        file_name=f"{model_name.lower().replace(' ', '_')}_confusion_matrix.png",
+        mime="image/png"
+    )
 
     if model_name == "Decision Tree":
         st.subheader("Decision Tree Visualization")
