@@ -2,6 +2,8 @@
 
 A Streamlit web app that predicts whether a passenger would have survived the Titanic disaster based on input features. Built using a Decision Tree Classifier trained on the classic Titanic dataset.
 
+https://predictionoftitanic.streamlit.app
+
 ---
 
 ## 📁 File Details 
