@@ -56,7 +56,11 @@ if menu == "📈 Model Evaluation":
 
     st.subheader("Confusion Matrix")
     fig_cm, ax = plt.subplots()
-    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', ax=ax)
+   sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', ax=ax,
+            xticklabels=["Not Survived", "Survived"],
+            yticklabels=["Not Survived", "Survived"])
+    ax.set_xlabel("Predicted")
+    ax.set_ylabel("Actual")
     st.pyplot(fig_cm)
 
     if model_name == "Decision Tree":
