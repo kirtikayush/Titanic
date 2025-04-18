@@ -1,0 +1,49 @@
+import pandas as pd
+import joblib
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+
+# Load the training dataset
+df = pd.read_csv("train.csv")
+
+# Fill missing values
+df['Age'].fillna(df['Age'].median(), inplace=True)
+df['Fare'].fillna(df['Fare'].median(), inplace=True)
+df['Embarked'].fillna(df['Embarked'].mode()[0], inplace=True)
+
+# Encode categorical variables
+encoders = {}
+for col in ['Sex', 'Embarked']:
+    le = LabelEncoder()
+    df[col] = le.fit_transform(df[col])
+    encoders[col] = le
+
+# Save the encoders
+joblib.dump(encoders, "label_encoders.pkl")
+
+# Select features and labels
+features = ['Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare', 'Embarked']
+X = df[features]
+y = df['Survived']
+
+# Split for local evaluation (optional)
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train models
+dt_model = DecisionTreeClassifier(random_state=42)
+rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
+lr_model = LogisticRegression(max_iter=200, random_state=42)
+
+dt_model.fit(X_train, y_train)
+rf_model.fit(X_train, y_train)
+lr_model.fit(X_train, y_train)
+
+# Save the models
+joblib.dump(dt_model, "decision_tree_model.pkl")
+joblib.dump(rf_model, "random_forest_model.pkl")
+joblib.dump(lr_model, "logistic_regression_model.pkl")
+
+print("✅ Models and encoders saved successfully!")
